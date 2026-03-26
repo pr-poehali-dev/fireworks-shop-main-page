@@ -4,53 +4,44 @@
 
 @layer base {
   :root {
-    /* Палитра: тёмный космос + янтарь + коралл */
-    --background: 230 18% 6%;
-    --foreground: 38 60% 94%;
+    --background: 228 35% 7%;
+    --foreground: 220 20% 95%;
 
-    --card: 230 18% 9%;
-    --card-foreground: 38 60% 94%;
+    --card: 228 30% 10%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 230 18% 9%;
-    --popover-foreground: 38 60% 94%;
+    --popover: 228 30% 10%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 38 95% 58%;
-    --primary-foreground: 230 18% 6%;
+    --primary: 328 90% 58%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 230 18% 13%;
-    --secondary-foreground: 38 60% 88%;
+    --secondary: 228 28% 14%;
+    --secondary-foreground: 220 20% 88%;
 
-    --muted: 230 18% 13%;
-    --muted-foreground: 230 12% 55%;
+    --muted: 228 28% 14%;
+    --muted-foreground: 228 15% 55%;
 
-    --accent: 14 90% 60%;
+    --accent: 328 90% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 18% 16%;
-    --input: 230 18% 13%;
-    --ring: 38 95% 58%;
+    --border: 228 25% 16%;
+    --input: 228 28% 14%;
+    --ring: 328 90% 58%;
 
-    --radius: 0.625rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 230 18% 6%;
-    --sidebar-foreground: 38 60% 94%;
-    --sidebar-primary: 38 95% 58%;
-    --sidebar-primary-foreground: 230 18% 6%;
-    --sidebar-accent: 230 18% 13%;
-    --sidebar-accent-foreground: 38 60% 88%;
-    --sidebar-border: 230 18% 16%;
-    --sidebar-ring: 38 95% 58%;
-
-    /* Brand tokens */
-    --amber: #f5a623; /* основной акцент — янтарь */
-    --coral: #e85d3a; /* вторичный — тёплый коралл */
-    --cream: #f7edd8; /* текст на тёмном */
-    --night: #0c0d14; /* фон */
-    --surface: #161824; /* карточки */
-    --surface2: #1e2030; /* бордер/разделитель */
+    --sidebar-background: 228 35% 7%;
+    --sidebar-foreground: 220 20% 95%;
+    --sidebar-primary: 328 90% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 228 28% 14%;
+    --sidebar-accent-foreground: 220 20% 88%;
+    --sidebar-border: 228 25% 16%;
+    --sidebar-ring: 328 90% 58%;
   }
 }
 
@@ -60,9 +51,10 @@
   }
 
   body {
-    @apply bg-background text-foreground font-roboto;
-    background-color: var(--night);
-    color: var(--cream);
+    @apply bg-background text-foreground;
+    background-color: #0b0d18;
+    color: #ecf0ff;
+    font-family: "Roboto", sans-serif;
   }
 
   h1,
@@ -76,57 +68,45 @@
 }
 
 @layer utilities {
-  /* Градиентный текст: янтарь → коралл */
-  .text-gradient-brand {
-    background: linear-gradient(110deg, #f5a623 0%, #e85d3a 100%);
+  .text-gradient-pink {
+    background: linear-gradient(115deg, #ff2d78 0%, #c72aff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Обратный: коралл → янтарь */
-  .text-gradient-inv {
-    background: linear-gradient(110deg, #e85d3a 0%, #f5a623 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Кнопка — янтарная */
   .btn-primary {
-    background: linear-gradient(110deg, #f5a623, #e07b10);
-    color: #0c0d14;
+    background: linear-gradient(115deg, #ff2d78, #e0196a);
+    color: #fff;
     font-family: "Oswald", sans-serif;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 18px rgba(245, 166, 35, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 45, 120, 0.35);
   }
   .btn-primary:hover {
-    background: linear-gradient(110deg, #ffba45, #f5a623);
-    box-shadow: 0 6px 28px rgba(245, 166, 35, 0.5);
+    background: linear-gradient(115deg, #ff5599, #ff2d78);
+    box-shadow: 0 6px 30px rgba(255, 45, 120, 0.55);
     transform: translateY(-2px);
   }
 
-  /* Кнопка — контурная */
   .btn-outline {
     background: transparent;
-    color: var(--cream);
+    color: #ecf0ff;
     font-family: "Oswald", sans-serif;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    border: 1.5px solid rgba(247, 237, 216, 0.25);
+    border: 1.5px solid rgba(236, 240, 255, 0.2);
     transition: all 0.25s ease;
   }
   .btn-outline:hover {
-    border-color: rgba(245, 166, 35, 0.6);
-    color: #f5a623;
-    background: rgba(245, 166, 35, 0.06);
+    border-color: rgba(255, 45, 120, 0.55);
+    color: #ff2d78;
+    background: rgba(255, 45, 120, 0.06);
   }
 
-  /* Карточка с ховером */
   .card-hover {
     transition:
       transform 0.25s ease,
@@ -135,16 +115,15 @@
   }
   .card-hover:hover {
     transform: translateY(-5px);
-    border-color: rgba(245, 166, 35, 0.35) !important;
+    border-color: rgba(255, 45, 120, 0.3) !important;
     box-shadow:
-      0 12px 40px rgba(245, 166, 35, 0.12),
-      0 2px 8px rgba(0, 0, 0, 0.4);
+      0 16px 48px rgba(255, 45, 120, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
-  /* Свечение иконки */
-  .icon-glow {
-    background: rgba(245, 166, 35, 0.12);
-    border: 1px solid rgba(245, 166, 35, 0.25);
+  .icon-box {
+    background: rgba(255, 45, 120, 0.1);
+    border: 1px solid rgba(255, 45, 120, 0.22);
   }
 
   .animate-delay-100 {
