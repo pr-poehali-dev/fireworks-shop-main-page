@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 
 /* ── Дизайн-токены ── */
@@ -140,7 +141,10 @@ export default function Index() {
             </div>
           </div>
           <nav className="hidden md:flex gap-8">
-            {["Каталог","Акции","О нас","Доставка","Контакты"].map(n => (
+            <Link to="/catalog" className="text-sm font-medium transition-colors" style={{ color: MUTED }}
+              onMouseEnter={e => (e.currentTarget.style.color = GOLD3)}
+              onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>Каталог</Link>
+            {["Акции","О нас","Доставка","Контакты"].map(n => (
               <a key={n} href="#" className="text-sm font-medium transition-colors" style={{ color: MUTED }}
                 onMouseEnter={e => (e.currentTarget.style.color = GOLD3)}
                 onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>{n}</a>
@@ -203,7 +207,7 @@ export default function Index() {
                 Более 300 видов сертифицированной пиротехники. Доставляем по всей России — превратим любой праздник в незабываемое шоу.
               </p>
               <div className="flex flex-wrap gap-3 mb-12 animate-fade-in" style={{ animationDelay: "0.34s" }}>
-                <button className="btn-gold px-8 py-3.5 rounded-xl text-sm">🎆 Смотреть каталог</button>
+                <Link to="/catalog" className="btn-gold px-8 py-3.5 rounded-xl text-sm inline-block">🎆 Смотреть каталог</Link>
                 <button className="btn-ghost px-8 py-3.5 rounded-xl text-sm">Акции и скидки</button>
               </div>
               <div className="flex gap-10 animate-fade-in" style={{ animationDelay: "0.46s" }}>
