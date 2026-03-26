@@ -13,8 +13,8 @@
     --popover: 240 15% 8%;
     --popover-foreground: 45 100% 95%;
 
-    --primary: 35 100% 50%;
-    --primary-foreground: 0 0% 5%;
+    --primary: 330 100% 58%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 240 15% 12%;
     --secondary-foreground: 45 100% 90%;
@@ -22,29 +22,30 @@
     --muted: 240 15% 12%;
     --muted-foreground: 240 10% 60%;
 
-    --accent: 45 100% 50%;
-    --accent-foreground: 0 0% 5%;
+    --accent: 330 100% 58%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 240 15% 15%;
     --input: 240 15% 12%;
-    --ring: 35 100% 50%;
+    --ring: 330 100% 58%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 240 15% 5%;
     --sidebar-foreground: 45 100% 95%;
-    --sidebar-primary: 35 100% 50%;
-    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-primary: 330 100% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 15% 12%;
     --sidebar-accent-foreground: 45 100% 90%;
     --sidebar-border: 240 15% 15%;
-    --sidebar-ring: 35 100% 50%;
+    --sidebar-ring: 330 100% 58%;
 
     /* Custom brand variables */
-    --gold: #ffd700;
+    --pink: #ff2d8a;
+    --pink-light: #ff6ec7;
     --orange: #ff6b00;
     --red-fire: #ff1a1a;
     --dark-bg: #0a0a0f;
@@ -75,7 +76,14 @@
 
 @layer utilities {
   .text-gradient-fire {
-    background: linear-gradient(135deg, #ffd700, #ff6b00, #ff1a1a);
+    background: linear-gradient(135deg, #ff2d8a, #ff6b00, #ff1a1a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-pink {
+    background: linear-gradient(135deg, #ff6ec7, #ff2d8a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -85,26 +93,26 @@
     background: linear-gradient(135deg, #ff6b00, #ff1a1a);
   }
 
-  .bg-gradient-gold {
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
+  .bg-gradient-pink {
+    background: linear-gradient(135deg, #ff2d8a, #ff6b00);
   }
 
   .border-glow {
-    border: 1px solid rgba(255, 107, 0, 0.4);
-    box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+    border: 1px solid rgba(255, 45, 138, 0.4);
+    box-shadow: 0 0 15px rgba(255, 45, 138, 0.2);
   }
 
   .card-glow:hover {
-    border-color: rgba(255, 107, 0, 0.6);
+    border-color: rgba(255, 45, 138, 0.5);
     box-shadow:
-      0 0 30px rgba(255, 107, 0, 0.25),
-      0 0 60px rgba(255, 215, 0, 0.1);
+      0 0 30px rgba(255, 45, 138, 0.2),
+      0 0 60px rgba(255, 107, 0, 0.1);
     transform: translateY(-4px);
     transition: all 0.3s ease;
   }
 
   .btn-fire {
-    background: linear-gradient(135deg, #ff6b00, #ff1a1a);
+    background: linear-gradient(135deg, #ff2d8a, #ff6b00);
     color: white;
     font-family: "Oswald", sans-serif;
     font-weight: 600;
@@ -114,14 +122,14 @@
   }
 
   .btn-fire:hover {
-    background: linear-gradient(135deg, #ff8c00, #ff4444);
-    box-shadow: 0 0 25px rgba(255, 107, 0, 0.6);
+    background: linear-gradient(135deg, #ff6ec7, #ff8c00);
+    box-shadow: 0 0 30px rgba(255, 45, 138, 0.55);
     transform: translateY(-2px);
   }
 
   .btn-gold {
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
-    color: #0a0a0f;
+    background: linear-gradient(135deg, #ff2d8a, #ff6b00);
+    color: #fff;
     font-family: "Oswald", sans-serif;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -130,8 +138,8 @@
   }
 
   .btn-gold:hover {
-    background: linear-gradient(135deg, #ffe44d, #ffa500);
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #ff6ec7, #ff8c00);
+    box-shadow: 0 0 35px rgba(255, 45, 138, 0.6);
     transform: translateY(-2px);
   }
 

@@ -1,7 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMAGE = "https://cdn.poehali.dev/projects/6954bfe6-128d-4f4d-96b0-7855acb4980b/files/2b9dd31b-601d-45e4-a55d-70e127486104.jpg";
+const HERO_SLIDES = [
+  {
+    img: "https://cdn.poehali.dev/projects/6954bfe6-128d-4f4d-96b0-7855acb4980b/files/f0a28dfa-c51e-4922-a365-4ffec22d988f.jpg",
+    label: "Эпичное шоу",
+  },
+  {
+    img: "https://cdn.poehali.dev/projects/6954bfe6-128d-4f4d-96b0-7855acb4980b/files/e41e4a63-8f3b-421b-8d9c-8e3469b9833d.jpg",
+    label: "Розовое золото",
+  },
+  {
+    img: "https://cdn.poehali.dev/projects/6954bfe6-128d-4f4d-96b0-7855acb4980b/files/1923f43f-44b9-483b-9911-7b2189b95024.jpg",
+    label: "Большой финал",
+  },
+  {
+    img: "https://cdn.poehali.dev/projects/6954bfe6-128d-4f4d-96b0-7855acb4980b/files/2b9dd31b-601d-45e4-a55d-70e127486104.jpg",
+    label: "Классика",
+  },
+];
 
 const CATEGORIES = [
   { id: 1, icon: "🎆", name: "Салюты", desc: "Профессиональные батареи", count: 87, color: "from-red-700 to-orange-600" },
@@ -143,7 +160,34 @@ export default function Index() {
   const [cartCount, setCartCount] = useState(0);
   const [addedId, setAddedId] = useState<number | null>(null);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [typedText, setTypedText] = useState("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const SLOGAN = "В нашей Галактике только одна Планета фейерверков";
+
+  // Typewriter effect
+  useEffect(() => {
+    let i = 0;
+    setTypedText("");
+    const timer = setInterval(() => {
+      if (i < SLOGAN.length) {
+        setTypedText(SLOGAN.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 45);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Auto-slide
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((s) => (s + 1) % HERO_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -183,7 +227,7 @@ export default function Index() {
             <div className="flex items-center gap-3">
               <div className="text-2xl">🎆</div>
               <div>
-                <div className="font-oswald font-bold text-lg leading-none" style={{ color: "#FFD700" }}>ПЛАНЕТА</div>
+                <div className="font-oswald font-bold text-lg leading-none" style={{ color: "#FF6EC7" }}>ПЛАНЕТА</div>
                 <div className="font-oswald text-xs tracking-[0.2em]" style={{ color: "#FF6B00" }}>ФЕЙЕРВЕРКОВ</div>
               </div>
             </div>
@@ -197,7 +241,7 @@ export default function Index() {
             </nav>
 
             <div className="flex items-center gap-4">
-              <a href="tel:+78001234567" className="hidden sm:flex items-center gap-2 text-sm font-medium" style={{ color: "#FFD700" }}>
+              <a href="tel:+78001234567" className="hidden sm:flex items-center gap-2 text-sm font-medium" style={{ color: "#FF6EC7" }}>
                 <Icon name="Phone" size={16} />
                 <span className="font-oswald">8 800 123-45-67</span>
               </a>
@@ -222,66 +266,127 @@ export default function Index() {
 
       {/* HERO */}
       <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
-        <div className="absolute inset-0">
-          <img src={HERO_IMAGE} alt="Фейерверки" className="w-full h-full object-cover" style={{ opacity: 0.45 }} />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(10,10,15,0.85) 0%, rgba(10,10,15,0.5) 50%, rgba(10,10,15,0.8) 100%)" }} />
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(255,107,0,0.12) 0%, transparent 60%)" }} />
-        </div>
+        {/* Slider backgrounds */}
+        {HERO_SLIDES.map((slide, i) => (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-1000"
+            style={{ opacity: activeSlide === i ? 1 : 0 }}
+          >
+            <img
+              src={slide.img}
+              alt={slide.label}
+              className="w-full h-full object-cover"
+              style={{ opacity: 0.5 }}
+            />
+          </div>
+        ))}
+
+        {/* Overlay gradients */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to right, rgba(10,10,15,0.92) 0%, rgba(10,10,15,0.6) 55%, rgba(10,10,15,0.4) 100%)"
+        }} />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to top, rgba(10,10,15,0.85) 0%, transparent 40%)"
+        }} />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse at 15% 60%, rgba(255,45,138,0.1) 0%, transparent 55%)"
+        }} />
 
         <FloatingParticles />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="max-w-3xl">
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="max-w-2xl">
+            {/* Badge */}
             <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-6 animate-fade-in"
-              style={{ background: "rgba(255,107,0,0.2)", border: "1px solid rgba(255,107,0,0.4)", color: "#FF6B00", animationDelay: "0.1s", opacity: 0 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-8 animate-fade-in"
+              style={{ background: "rgba(255,45,138,0.15)", border: "1px solid rgba(255,45,138,0.35)", color: "#FF6EC7", animationDelay: "0.1s", opacity: 0, letterSpacing: "0.12em", textTransform: "uppercase" }}
             >
-              <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              Более 300 видов пиротехники в наличии
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#FF2D8A" }} />
+              Более 300 видов пиротехники
             </div>
 
+            {/* Main headline */}
             <h1
-              className="font-oswald font-bold leading-none mb-4 animate-fade-in"
-              style={{ fontSize: "clamp(3rem, 8vw, 6rem)", color: "#FFF8E7", animationDelay: "0.2s", opacity: 0 }}
+              className="font-oswald font-bold leading-[0.95] mb-6 animate-fade-in"
+              style={{ fontSize: "clamp(3.2rem, 9vw, 6.5rem)", animationDelay: "0.15s", opacity: 0 }}
             >
-              <span style={{ color: "#FFD700" }}>ВЗОРВИ</span> СВОЙ
+              <span style={{ color: "#FFF8E7" }}>ВЗОРВИ</span>
               <br />
-              <span className="text-gradient-fire">ПРАЗДНИК!</span>
+              <span className="text-gradient-fire">ПРАЗДНИК</span>
             </h1>
 
-            <p
-              className="text-lg mb-8 max-w-xl animate-fade-in"
-              style={{ color: "rgba(255,248,231,0.7)", lineHeight: 1.6, animationDelay: "0.35s", opacity: 0 }}
+            {/* Slogan typewriter */}
+            <div
+              className="mb-10 animate-fade-in"
+              style={{ animationDelay: "0.3s", opacity: 0 }}
             >
-              Профессиональная пиротехника с доставкой по всей России. Сертифицированные фейерверки от проверенных производителей.
-            </p>
-
-            <div className="flex flex-wrap gap-4 mb-12 animate-fade-in" style={{ animationDelay: "0.5s", opacity: 0 }}>
-              <button className="btn-gold px-8 py-4 rounded-xl text-lg font-bold" style={{ fontFamily: "Oswald, sans-serif" }}>
-                🎆 Смотреть каталог
-              </button>
-              <button
-                className="px-8 py-4 rounded-xl text-lg font-semibold transition-all hover:bg-white/10"
-                style={{ fontFamily: "Oswald, sans-serif", border: "2px solid rgba(255,215,0,0.4)", color: "#FFD700", letterSpacing: "0.05em" }}
+              <p
+                className="font-roboto text-lg md:text-xl leading-relaxed"
+                style={{ color: "rgba(255,248,231,0.75)", maxWidth: "520px" }}
               >
-                Акции и скидки
-              </button>
+                {typedText}
+                <span
+                  className="inline-block w-0.5 h-5 ml-0.5 align-middle animate-pulse"
+                  style={{ background: "#FF2D8A", opacity: typedText.length < SLOGAN.length ? 1 : 0 }}
+                />
+              </p>
             </div>
 
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-14 animate-fade-in" style={{ animationDelay: "0.5s", opacity: 0 }}>
+              <button
+                className="btn-gold px-9 py-4 rounded-2xl text-base font-bold tracking-wide"
+                style={{ fontFamily: "Oswald, sans-serif", fontSize: "1rem" }}
+              >
+                🎆 Смотреть каталог
+              </button>
+              <a
+                href="#"
+                className="flex items-center justify-center gap-2 text-sm font-medium transition-all group"
+                style={{ color: "rgba(255,248,231,0.55)", letterSpacing: "0.06em", fontFamily: "Oswald, sans-serif", fontSize: "0.9rem", textTransform: "uppercase" }}
+              >
+                Акции и скидки
+                <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+
+            {/* Stats */}
             <div className="flex flex-wrap gap-8 animate-fade-in" style={{ animationDelay: "0.65s", opacity: 0 }}>
-              {[{ value: "300+", label: "товаров" }, { value: "15 000+", label: "довольных клиентов" }, { value: "10 лет", label: "на рынке" }].map((stat) => (
-                <div key={stat.label}>
-                  <div className="font-oswald font-bold text-3xl" style={{ color: "#FFD700" }}>{stat.value}</div>
-                  <div className="text-sm" style={{ color: "rgba(255,248,231,0.5)" }}>{stat.label}</div>
+              {[
+                { value: "300+", label: "товаров" },
+                { value: "15 000+", label: "клиентов" },
+                { value: "10 лет", label: "на рынке" },
+              ].map((stat) => (
+                <div key={stat.label} className="flex flex-col">
+                  <span className="font-oswald font-bold text-2xl" style={{ color: "#FF2D8A" }}>{stat.value}</span>
+                  <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(255,248,231,0.4)" }}>{stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
-          <span className="text-xs tracking-widest" style={{ color: "rgba(255,248,231,0.4)" }}>ЛИСТАЙ ВНИЗ</span>
-          <Icon name="ChevronDown" size={20} style={{ color: "rgba(255,107,0,0.6)" }} />
+        {/* Slide indicators */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveSlide(i)}
+              className="transition-all duration-300 rounded-full"
+              style={{
+                width: activeSlide === i ? "28px" : "8px",
+                height: "8px",
+                background: activeSlide === i ? "#FF2D8A" : "rgba(255,255,255,0.3)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Scroll hint */}
+        <div className="absolute bottom-10 right-8 hidden md:flex flex-col items-center gap-2 animate-float">
+          <span className="text-xs tracking-[0.2em]" style={{ color: "rgba(255,248,231,0.3)", writingMode: "vertical-rl" }}>SCROLL</span>
+          <Icon name="ChevronDown" size={16} style={{ color: "rgba(255,45,138,0.5)" }} />
         </div>
       </section>
 
@@ -291,7 +396,7 @@ export default function Index() {
           <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has("categories") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <div className="font-oswald text-sm tracking-[0.3em] mb-2" style={{ color: "#FF6B00" }}>ЧТО МЫ ПРЕДЛАГАЕМ</div>
             <h2 className="font-oswald font-bold text-4xl md:text-5xl" style={{ color: "#FFF8E7" }}>
-              КАТЕГОРИИ <span style={{ color: "#FFD700" }}>ТОВАРОВ</span>
+              КАТЕГОРИИ <span style={{ color: "#FF2D8A" }}>ТОВАРОВ</span>
             </h2>
           </div>
 
@@ -325,7 +430,7 @@ export default function Index() {
             <div className="text-6xl md:text-8xl animate-float">🎆</div>
             <div className="flex-1 text-center md:text-left">
               <div className="font-oswald text-sm tracking-widest mb-2" style={{ color: "#FF6B00" }}>АКЦИЯ НЕДЕЛИ</div>
-              <h3 className="font-oswald font-bold text-3xl md:text-4xl mb-2" style={{ color: "#FFD700" }}>СКИДКА 20% НА ВСЕ НАБОРЫ</h3>
+              <h3 className="font-oswald font-bold text-3xl md:text-4xl mb-2" style={{ color: "#FF6EC7" }}>СКИДКА 20% НА ВСЕ НАБОРЫ</h3>
               <p style={{ color: "rgba(255,248,231,0.65)" }}>Только до конца месяца. Успей заказать праздничные комплекты по специальной цене!</p>
             </div>
             <button className="btn-fire px-8 py-4 rounded-xl text-base whitespace-nowrap" style={{ fontFamily: "Oswald, sans-serif" }}>
@@ -342,7 +447,7 @@ export default function Index() {
             <div>
               <div className="font-oswald text-sm tracking-[0.3em] mb-2" style={{ color: "#FF6B00" }}>НАШИ ТОВАРЫ</div>
               <h2 className="font-oswald font-bold text-4xl md:text-5xl" style={{ color: "#FFF8E7" }}>
-                ПОПУЛЯРНЫЕ <span style={{ color: "#FFD700" }}>ПОЗИЦИИ</span>
+                ПОПУЛЯРНЫЕ <span style={{ color: "#FF2D8A" }}>ПОЗИЦИИ</span>
               </h2>
             </div>
             <button className="hidden md:flex items-center gap-2 text-sm font-medium hover:text-yellow-400 transition-colors" style={{ color: "rgba(255,248,231,0.6)" }}>
@@ -379,7 +484,7 @@ export default function Index() {
 
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="font-oswald font-bold text-2xl" style={{ color: "#FFD700" }}>
+                      <span className="font-oswald font-bold text-2xl" style={{ color: "#FF6EC7" }}>
                         {product.price.toLocaleString("ru-RU")} ₽
                       </span>
                       {product.oldPrice && (
@@ -419,7 +524,7 @@ export default function Index() {
           <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has("advantages") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <div className="font-oswald text-sm tracking-[0.3em] mb-2" style={{ color: "#FF6B00" }}>ПОЧЕМУ МЫ</div>
             <h2 className="font-oswald font-bold text-4xl md:text-5xl" style={{ color: "#FFF8E7" }}>
-              НАШИ <span style={{ color: "#FFD700" }}>ПРЕИМУЩЕСТВА</span>
+              НАШИ <span style={{ color: "#FF2D8A" }}>ПРЕИМУЩЕСТВА</span>
             </h2>
           </div>
 
@@ -432,9 +537,9 @@ export default function Index() {
               >
                 <div
                   className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center animate-glow-pulse"
-                  style={{ background: "rgba(255,107,0,0.15)", border: "1px solid rgba(255,107,0,0.3)" }}
+                  style={{ background: "rgba(255,45,138,0.12)", border: "1px solid rgba(255,45,138,0.3)" }}
                 >
-                  <Icon name={adv.icon} size={22} style={{ color: "#FF6B00" }} />
+                  <Icon name={adv.icon} size={22} style={{ color: "#FF2D8A" }} />
                 </div>
                 <h3 className="font-oswald font-semibold text-lg mb-2" style={{ color: "#FFF8E7" }}>{adv.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(255,248,231,0.55)" }}>{adv.desc}</p>
@@ -447,7 +552,7 @@ export default function Index() {
       {/* CTA */}
       <section id="cta" ref={setRef("cta")} className="py-24 relative overflow-hidden" style={{ background: "#0A0A0F" }}>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: "radial-gradient(circle, #FF6B00, transparent)" }} />
+          <div className="w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: "radial-gradient(circle, #FF2D8A, transparent)" }} />
         </div>
 
         <div className={`max-w-3xl mx-auto px-4 text-center transition-all duration-700 ${visibleSections.has("cta") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -480,7 +585,7 @@ export default function Index() {
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-3xl">🎆</span>
                 <div>
-                  <div className="font-oswald font-bold text-xl" style={{ color: "#FFD700" }}>ПЛАНЕТА</div>
+                  <div className="font-oswald font-bold text-xl" style={{ color: "#FF6EC7" }}>ПЛАНЕТА</div>
                   <div className="font-oswald text-xs tracking-widest" style={{ color: "#FF6B00" }}>ФЕЙЕРВЕРКОВ</div>
                 </div>
               </div>
@@ -495,7 +600,7 @@ export default function Index() {
               { title: "Контакты", links: ["8 800 123-45-67", "info@planeta-fw.ru", "Пн–Вс 9:00–21:00"] },
             ].map((col) => (
               <div key={col.title}>
-                <h4 className="font-oswald font-semibold text-base mb-4" style={{ color: "#FFD700" }}>{col.title}</h4>
+                <h4 className="font-oswald font-semibold text-base mb-4" style={{ color: "#FF6EC7" }}>{col.title}</h4>
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
